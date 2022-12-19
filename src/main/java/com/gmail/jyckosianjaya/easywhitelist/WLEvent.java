@@ -8,23 +8,18 @@ import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerLoginEvent.Result;
 
 public class WLEvent implements Listener {
-   private EasyWhiteList m;
+   private final EasyWhiteList list;
 
-   public WLEvent(EasyWhiteList m) {
-      this.m = m;
+   public WLEvent(EasyWhiteList list) {
+      this.list = list;
    }
 
    @EventHandler
    public void onConnect(PlayerLoginEvent e) {
       Player p = e.getPlayer();
       UUID id = p.getUniqueId();
-      if (p != null && this.m.getStorage().isWhitelisting() && !this.m.getStorage().isUUIDlisted(id)) {
-         if (this.m.getStorage().isWhitelisted(p.getName())) {
-            this.m.getStorage().addUUID(id, p.getName());
-            this.m.getStorage().removeWhitelistOnly(p.getName());
-         } else {
-            e.disallow(Result.KICK_WHITELIST, this.m.getStorage().getNoWhitelistMsg());
-         }
+      if (!list.getStorage().onLogin(id, p.getName())) {
+         e.disallow(Result.KICK_WHITELIST, this.list.getStorage().getNoWhitelistMsg());
       }
    }
 }
