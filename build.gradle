@@ -25,6 +25,4 @@ repositories {
 dependencies {
     // Request the Spigot API.
     compileOnly "org.spigotmc:spigot-api:1.19.3-R0.1-SNAPSHOT"
-    implementation 'com.googlecode.json-simple:json-simple:1.1.1'
-    compileOnly "org.bstats:bstats-bukkit:3.0.0"
 }
